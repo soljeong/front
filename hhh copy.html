@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>밀땅</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/jumbotrons/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+
+    <link href="/css/result.css?after" rel="stylesheet">
+    <link href="/css/log.css?after" rel="stylesheet">
+    <link href="/css/analysisPage.css?after" rel="stylesheet">
+    <link href="/css/jumbotrons.css?after" rel="stylesheet">
+    <link href="/css/weeklyPage.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        a {
+            text-decoration-line: none;
+            color: inherit;
+        }
+
+        #logs {
+
+            border: 3px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            /* 모서리를 둥글게 */
+        }
+
+
+        #logs .date-navigation span {
+            margin-top: 10px;
+            /* 날짜 표시와 버튼 사이의 간격을 조정 */
+            color: black;
+            /* 글씨 색상을 검은색으로 변경 */
+        }
+
+        #logs .data-list {
+            color: black;
+            text-align: center;
+            /* 텍스트 가운데 정렬 */
+        }
+
+        #logs .data-list ul {
+            list-style-type: none;
+            /* 기본 리스트 스타일 제거 */
+            padding: 0;
+            /* 기본 패딩 제거 */
+        }
+
+        #logs .data-list ul li {
+            display: inline-block;
+            /* 아이템을 가로로 나열 */
+            margin: 0 10px;
+            /* 아이템 간격 설정 */
+        }
+
+        .date-center {
+            color: black;
+            text-align: center;
+            /* 텍스트를 가운데 정렬합니다. */
+            display: block;
+            /* 블록 레벨 요소로 만들어 전체 너비를 차지하게 합니다. */
+            margin: auto;
+            /* 자동 마진을 사용하여 가로 방향으로 가운데 정렬합니다. */
+        }
+
+        table {
+            width: 350px;
+            /* 표의 너비를 500px로 설정 */
+            height: 40px;
+            /* 표의 높이를 300px로 설정 */
+            color: black;
+            table-layout: fixed;
+            /* 표의 레이아웃을 고정으로 설정하여 셀 크기를 고정 */
+            border: 1px solid #000;
+            /* 표의 테두리 스타일 및 색상 설정 */
+            border-collapse: collapse;
+            /* 표의 셀 테두리를 병합하여 하나로 표시 */
+        }
+
+        table td {
+            padding: 5px 10px;
+            /* 위아래로 5px, 좌우로 10px의 패딩을 적용합니다. */
+            border: 1px solid #000;
+            /* 셀의 테두리 스타일 및 색상 설정 */
+            color: black;
+        }
+
+        .code-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .image-box-wrapper {
+            border: 2px solid rgb(26, 155, 95);
+            padding: 20px;
+            /* margin: 40px 0; */
+            border-radius: 10px;
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            /* 이미지를 가로로 나열하기 위해 필요한 CSS 속성 */
+        }
+
+        .image-box {
+            border: 2px solid rgb(26, 155, 95);
+            padding: 20px;
+            border-radius: 10px;
+            width: 200px;
+            /* 원하는 이미지 가로 크기 */
+            height: 200px;
+            /* 원하는 이미지 세로 크기 */
+            overflow: hidden;
+            /* 이미지가 지정된 크기를 초과하는 경우를 대비하여 오버플로우 처리 */
+            margin-right: 10px;
+            border: 1px solid #000;
+            /* 테두리 스타일 및 색상 설정 */
+            padding: 5px;
+            /* 테두리와 이미지 사이의 간격 설정 */
+            flex: 0 0 auto; /* 이미지 박스의 크기를 자동으로 유지합니다. */
+
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* 이미지가 비율을 유지하면서 박스 안에 들어가도록 합니다. */
+        }
+
+        .slide {
+            display: none;
+            /* 기타 스타일 */
+        }
+
+        /* 활성화된 슬라이드 */
+        .slide.active {
+            display: block;
+        }
+
+
+        .date-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .date-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript"
+        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=3volbh1cte"></script>
+    <script src="/js/weekly.js" type="module"></script>
+    <script src="/js/log.js" type="module"></script>
+    <script src="/js/analysisPage.js" type="module"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="container py-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/user/main">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                        class="bi bi-egg-fried" viewBox="0 0 16 16">
+                        <path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6" fill="#ffc107"></path>
+                        <path
+                            d="M13.997 5.17a5 5 0 0 0-8.101-4.09A5 5 0 0 0 1.28 9.342a5 5 0 0 0 8.336 5.109 3.5 3.5 0 0 0 5.201-4.065 3.001 3.001 0 0 0-.822-5.216zm-1-.034a1 1 0 0 0 .668.977 2.001 2.001 0 0 1 .547 3.478 1 1 0 0 0-.341 1.113 2.5 2.5 0 0 1-3.715 2.905 1 1 0 0 0-1.262.152 4 4 0 0 1-6.67-4.087 1 1 0 0 0-.2-1 4 4 0 0 1 3.693-6.61 1 1 0 0 0 .8-.2 4 4 0 0 1 6.48 3.273z">
+                        </path>
+                    </svg>
+                    <span id="mealddang">MealDDang</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-outline-warning no-wrap ms-auto nav-link"><a
+                                    href="/user/diet/log">밀땅일지</a></button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-outline-warning no-wrap ms-auto nav-link"><a
+                                    href="/user/rsrt/map">밀땅검색</a></button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-outline-warning no-wrap ms-auto nav-link"><a
+                                    href="/user/mygallery">마이갤러리</a></button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-outline-warning no-wrap ms-auto nav-link"><a
+                                    href="/user/mypage">마이페이지</a></button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-outline-warning no-wrap ms-auto nav-link"><a
+                                    href="/logout">로그아웃</a></button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- 기본 템플릿 안에 삽입될 내용 Start -->
+        <main class="container">
+            <div class="container">
+
+                <div class="row">
+                    <!-- 제목 부분 -->
+                    <div class="col-md-12">
+                        <div class="code-area" style="margin-right: 20px; display: flex; justify-content: flex-end;">
+                            <p>오늘 (2024-03-19)</p>
+                            <a href="/user/diet/analysis?date=2024-03-19" style="margin-left: auto;">
+                                <button class="btn btn-outline-warning">이미지 AI 분석</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- 테이블 데이터 -->
+                    <div class="col-md-3">
+                        <table class="table">
+                            <tbody>
+                                <tr id="todaykcal">
+                                    <td colspan="2" style="text-align: left;">칼로리</td>
+                                    <td colspan="3" style="text-align: right;">
+                                        <span>2229 / 2600.0 kacl</span>
+                                    </td>
+                                </tr>
+                                <tr id="todaycarbohydrates">
+                                    <td colspan="2" style="text-align: left;">탄수화물</td>
+                                    <td colspan="3" style="text-align: right;">
+                                        <span>423 / 364.0 g</span>
+                                    </td>
+                                </tr>
+                                <tr id="todayprotein">
+                                    <td colspan="2" style="text-align: left;">단백질</td>
+                                    <td colspan="3" style="text-align: right;">
+                                        <span>50 / 55.0 g</span>
+                                    </td>
+                                </tr>
+                                <tr id="todayfat">
+                                    <td colspan="2" style="text-align: left;">지방</td>
+                                    <td colspan="3" style="text-align: right;">
+                                        <span>37 / 44.2 g</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                <!-- 사진 데이터 -->
+                    <div class="col-md-9">
+                        <div class="image-box-wrapper">
+                                <div class="image-box">
+                                    <img src="/uploaded/qwer/fe15424d-9d33-414d-806c-da4090569c3b/fe15424d-9d33-414d-806c-da4090569c3b.jpg" alt="이미지 설명">
+                                </div>
+                                <div class="image-box">
+                                    <img src="/uploaded/qwer/9c6b5678-122e-4037-b7ae-7f6e16fa7e8d/9c6b5678-122e-4037-b7ae-7f6e16fa7e8d.jpg" alt="이미지 설명">
+                                </div>
+                                <div class="image-box">
+                                    <img src="/uploaded/qwer/56509101-03dc-414b-8d50-d551c6ad90d3/56509101-03dc-414b-8d50-d551c6ad90d3.jpg" alt="이미지 설명">
+                                </div>
+                                <div class="image-box">
+                                    <img src="/uploaded/qwer/b277826c-99ab-46bf-b746-90b8f6c7222e/b277826c-99ab-46bf-b746-90b8f6c7222e.jpg" alt="이미지 설명">
+                                </div>
+                                <div class="image-box">
+                                    <img src="/uploaded/qwer/b277826c-99ab-46bf-b746-90b8f6c7222e/b277826c-99ab-46bf-b746-90b8f6c7222e.jpg" alt="이미지 설명">
+                                </div>
+                                <div class="image-box">
+                                    <img src="/uploaded/qwer/623df2b2-99a7-4e0a-b776-72bb84e294a5/623df2b2-99a7-4e0a-b776-72bb84e294a5.jpg" alt="이미지 설명">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <section id="title">
+                <a href="/user/diet/log">
+                    <h3>qwer님의 밀땅일지</h3>
+                </a>
+            </section>
+
+            <div class="row">
+                <section id="logs">
+                    <div class="text-center">
+                        <h3 style="color: black;">주간 섭취량</h3>
+                        <div class="date-navigation">
+                            <button id="prev" class="btn btn-outline-warning">
+                                < </button>
+                                    <button id="next" class="btn btn-outline-warning"> > </button>
+                        </div>
+                        <div id="slider">
+                            <!-- 슬라이드 내용이 들어갈 곳 -->
+                            <div class="slide" id="lastWeek">
+                                저번주 내용
+                                <div class="date-center">
+                                    <span>2023.03.18</span>
+                                    <span> - </span>
+                                    <span>2023.03.24</span>
+                                </div>
+                                <table style="margin: 0 auto;">
+                                    <tbody>
+                                        <tr id="totalkcal">
+                                            <td colspan="2" style="text-align: left;">칼로리</td>
+                                            <td colspan="3" style="text-align: right;">
+                                                <span>12206 / 18200.0 kacl</span>
+                                            </td>
+                                        </tr>
+                                        <tr id="totalcarbohydrates">
+                                            <td colspan="2" style="text-align: left;">탄수화물</td>
+                                            <td colspan="3" style="text-align: right;">
+                                                <span>2120 / 2548.0 g</span>
+                                            </td>
+                                        </tr>
+                                        <tr id="totalprotein">
+                                            <td colspan="2" style="text-align: left;">단백질</td>
+                                            <td colspan="3" style="text-align: right;">
+                                                <span>296 / 385.0 g</span>
+                                            </td>
+                                        </tr>
+                                        <tr id="totalfat">
+                                            <td colspan="2" style="text-align: left;">지방</td>
+                                            <td colspan="3" style="text-align: right;">
+                                                <span>330 / 309.4 g</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-primary text-center">
+                                    <a href="/user/diet/weekly" style="margin-left: auto;">
+                                        <button class="btn btn-outline-warning">주간 AI 리포트</button></a>
+                                </div>
+                            </div>
+
+                            <div class="slide" id="thisWeek" style="display:none;">
+                                이번주 내용
+                                <div class="date-center">
+                                    <span>2024.03.18</span>
+                                    <span> - </span>
+                                    <span>2024.03.24</span>
+                                </div>
+                                <table style="margin: 0 auto;">
+                                    <tbody>
+                                        <tr id="totalkcal">
+                                            <td colspan="2" style="text-align: left;">칼로리</td>
+                                            <td colspan="3" style="text-align: right;">
+                                                <span>1220600 / 18200.0 kacl</span>
+                                            </td>
+                                        </tr>
+                                        <tr id="totalcarbohydrates">
+                                            <td colspan="2" style="text-align: left;">탄수화물</td>
+                                            <td colspan="3" style="text-align: right;">
+                                                <span>212000 / 2548.0 g</span>
+                                            </td>
+                                        </tr>
+                                        <tr id="totalprotein">
+                                            <td colspan="2" style="text-align: left;">단백질</td>
+                                            <td colspan="3" style="text-align: right;">
+                                                <span>29600 / 385.0 g</span>
+                                            </td>
+                                        </tr>
+                                        <tr id="totalfat">
+                                            <td colspan="2" style="text-align: left;">지방</td>
+                                            <td colspan="3" style="text-align: right;">
+                                                <span>33000 / 309.4 g</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-primary text-center">
+                                    <a href="/user/diet/weekly" style="margin-left: auto;">
+                                        <button class="btn btn-outline-warning">주간 AI 리포트</button></a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </section>
+                <hr>
+                <hr>
+            </div>
+
+            <div class="row">
+                            <!-- 코드 영역 -->
+            <div class="code-area" style="margin-right: 20px; display: flex; justify-content: flex-end;">
+                <!-- 오늘 날짜와 이미지 AI 분석 버튼 -->
+                <p>오늘 (2024-03-19)</p>
+                <a href="/user/diet/analysis?date=2024-03-19" style="margin-left: auto;">
+                    <button class="btn btn-outline-warning">이미지 AI 분석</button>
+                </a>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <!-- 식단 정보 테이블 -->
+                <table>
+                    <tbody>
+                        <tr id="todaykcal">
+                            <td colspan="2" style="text-align: left;">칼로리</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>2229 / 2600.0 kacl</span>
+                            </td>
+                        </tr>
+                        <tr id="todaycarbohydrates">
+                            <td colspan="2" style="text-align: left;">탄수화물</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>423 / 364.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="todayprotein">
+                            <td colspan="2" style="text-align: left;">단백질</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>50 / 55.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="todayfat">
+                            <td colspan="2" style="text-align: left;">지방</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>37 / 44.2 g</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 이미지 박스 영역 -->
+                <div class="image-box-wrapper">
+                    <!-- 각 이미지에 대한 반복문 -->
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/fe15424d-9d33-414d-806c-da4090569c3b/fe15424d-9d33-414d-806c-da4090569c3b.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/9c6b5678-122e-4037-b7ae-7f6e16fa7e8d/9c6b5678-122e-4037-b7ae-7f6e16fa7e8d.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/56509101-03dc-414b-8d50-d551c6ad90d3/56509101-03dc-414b-8d50-d551c6ad90d3.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/b277826c-99ab-46bf-b746-90b8f6c7222e/b277826c-99ab-46bf-b746-90b8f6c7222e.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/b277826c-99ab-46bf-b746-90b8f6c7222e/b277826c-99ab-46bf-b746-90b8f6c7222e.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/623df2b2-99a7-4e0a-b776-72bb84e294a5/623df2b2-99a7-4e0a-b776-72bb84e294a5.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 구분선 -->
+            <hr>
+            <hr>
+
+            </div>
+
+
+
+            <div class="code-area" style="margin-right: 20px; display: flex; justify-content: flex-end;">
+                <p>2024-03-18</p>
+                <!-- 이미지 AI 분석 버튼 -->
+                <a href="/user/diet/analysis?date=2024-03-18" style="margin-left: auto;">
+                    <button class="btn btn-outline-warning">이미지 AI 분석</button>
+                </a>
+            </div>
+            <div class="image-box-wrapper"
+                style="flex: 1; display: flex; justify-content: space-around; align-items: flex-start; margin-bottom: 20px; overflow-x: auto;">
+                <!-- 각 날짜별 결과 테이블 -->
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" style="text-align: left;">칼로리</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>9977 / 2600.0 kacl</span>
+                            </td>
+                        </tr>
+                        <tr id="carbohydrates">
+                            <td colspan="2" style="text-align: left;">탄수화물</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>1697 / 364.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="protein">
+                            <td colspan="2" style="text-align: left;">단백질</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>246 / 55.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="fat">
+                            <td colspan="2" style="text-align: left;">지방</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>293 / 44.2 g</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 이미지 박스를 추가할 위치 -->
+                <div class="image-box-wrapper">
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/cae7113c-c48f-4eb8-93e7-4f02c11908ce/cae7113c-c48f-4eb8-93e7-4f02c11908ce.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/171696d5-cc07-4192-9fd9-987a50146aa6/171696d5-cc07-4192-9fd9-987a50146aa6.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/ff47f325-6d75-451f-b682-b6886b1f3e2b/ff47f325-6d75-451f-b682-b6886b1f3e2b.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/6d73a01c-2201-415b-9412-473453344f21/6d73a01c-2201-415b-9412-473453344f21.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/2213b741-0bb7-4395-8679-2b9088b8f571/2213b741-0bb7-4395-8679-2b9088b8f571.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/5a106099-53c3-47c1-a220-759876310b4e/5a106099-53c3-47c1-a220-759876310b4e.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/ec60aa3d-ba89-4e8d-ac9f-b594e29a7538/ec60aa3d-ba89-4e8d-ac9f-b594e29a7538.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/c3100f40-ab03-458c-8751-ef38d29bdea7/c3100f40-ab03-458c-8751-ef38d29bdea7.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/6a0ae1bd-8cfc-4eca-a49c-7394933a42f7/6a0ae1bd-8cfc-4eca-a49c-7394933a42f7.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/cf7c63ef-55f3-4eb9-978a-8f0a7376fd77/cf7c63ef-55f3-4eb9-978a-8f0a7376fd77.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/dfb8326f-22bd-43b5-905c-5c4b54ba2721/dfb8326f-22bd-43b5-905c-5c4b54ba2721.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/ea21d6e8-5900-483d-9714-17384ec08b3f/ea21d6e8-5900-483d-9714-17384ec08b3f.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/943b8e0c-c118-406c-9bed-299a945a7085/943b8e0c-c118-406c-9bed-299a945a7085.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/50cec736-10da-4ab6-bcba-e68c4591237a/50cec736-10da-4ab6-bcba-e68c4591237a.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/6cc18454-6947-45b2-b013-cff56162dbb4/6cc18454-6947-45b2-b013-cff56162dbb4.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/9c9ee3d5-6b62-45b2-8ba0-79d133a5a220/9c9ee3d5-6b62-45b2-8ba0-79d133a5a220.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/cb59095f-2fa7-40ab-b306-4e047c4175df/cb59095f-2fa7-40ab-b306-4e047c4175df.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/63b22abf-f39e-46c6-8887-ed8a9a0eb57d/63b22abf-f39e-46c6-8887-ed8a9a0eb57d.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/5373c8c0-0f86-43c7-893b-13c7c9197881/5373c8c0-0f86-43c7-893b-13c7c9197881.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/24de5337-a479-49de-819b-f7185bde595d/24de5337-a479-49de-819b-f7185bde595d.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/75932647-b447-48d8-8ec1-8fe8022a6b56/75932647-b447-48d8-8ec1-8fe8022a6b56.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/e7978a1f-f257-4270-8f7e-d76a4293eb3b/e7978a1f-f257-4270-8f7e-d76a4293eb3b.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <div class="code-area" style="margin-right: 20px; display: flex; justify-content: flex-end;">
+                <p>2024-03-19</p>
+                <!-- 이미지 AI 분석 버튼 -->
+                <a href="/user/diet/analysis?date=2024-03-19" style="margin-left: auto;">
+                    <button class="btn btn-outline-warning">이미지 AI 분석</button>
+                </a>
+            </div>
+            <div class="image-box-wrapper"
+                style="flex: 1; display: flex; justify-content: space-around; align-items: flex-start; margin-bottom: 20px; overflow-x: auto;">
+                <!-- 각 날짜별 결과 테이블 -->
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" style="text-align: left;">칼로리</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>2229 / 2600.0 kacl</span>
+                            </td>
+                        </tr>
+                        <tr id="carbohydrates">
+                            <td colspan="2" style="text-align: left;">탄수화물</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>423 / 364.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="protein">
+                            <td colspan="2" style="text-align: left;">단백질</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>50 / 55.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="fat">
+                            <td colspan="2" style="text-align: left;">지방</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>37 / 44.2 g</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 이미지 박스를 추가할 위치 -->
+                <div class="image-box-wrapper">
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/fe15424d-9d33-414d-806c-da4090569c3b/fe15424d-9d33-414d-806c-da4090569c3b.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/9c6b5678-122e-4037-b7ae-7f6e16fa7e8d/9c6b5678-122e-4037-b7ae-7f6e16fa7e8d.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/56509101-03dc-414b-8d50-d551c6ad90d3/56509101-03dc-414b-8d50-d551c6ad90d3.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/b277826c-99ab-46bf-b746-90b8f6c7222e/b277826c-99ab-46bf-b746-90b8f6c7222e.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/b277826c-99ab-46bf-b746-90b8f6c7222e/b277826c-99ab-46bf-b746-90b8f6c7222e.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-box">
+                            <img src="/uploaded/qwer/623df2b2-99a7-4e0a-b776-72bb84e294a5/623df2b2-99a7-4e0a-b776-72bb84e294a5.jpg"
+                                alt="이미지 설명">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <div class="code-area" style="margin-right: 20px; display: flex; justify-content: flex-end;">
+                <p>2024-03-20</p>
+                <!-- 이미지 AI 분석 버튼 -->
+                <a href="/user/diet/analysis?date=2024-03-20" style="margin-left: auto;">
+                    <button class="btn btn-outline-warning">이미지 AI 분석</button>
+                </a>
+            </div>
+            <div class="image-box-wrapper"
+                style="flex: 1; display: flex; justify-content: space-around; align-items: flex-start; margin-bottom: 20px; overflow-x: auto;">
+                <!-- 각 날짜별 결과 테이블 -->
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" style="text-align: left;">칼로리</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 2600.0 kacl</span>
+                            </td>
+                        </tr>
+                        <tr id="carbohydrates">
+                            <td colspan="2" style="text-align: left;">탄수화물</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 364.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="protein">
+                            <td colspan="2" style="text-align: left;">단백질</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 55.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="fat">
+                            <td colspan="2" style="text-align: left;">지방</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 44.2 g</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 이미지 박스를 추가할 위치 -->
+                <div class="image-box-wrapper">
+
+                </div>
+            </div>
+            <hr>
+
+            <div class="code-area" style="margin-right: 20px; display: flex; justify-content: flex-end;">
+                <p>2024-03-21</p>
+                <!-- 이미지 AI 분석 버튼 -->
+                <a href="/user/diet/analysis?date=2024-03-21" style="margin-left: auto;">
+                    <button class="btn btn-outline-warning">이미지 AI 분석</button>
+                </a>
+            </div>
+            <div class="image-box-wrapper"
+                style="flex: 1; display: flex; justify-content: space-around; align-items: flex-start; margin-bottom: 20px; overflow-x: auto;">
+                <!-- 각 날짜별 결과 테이블 -->
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" style="text-align: left;">칼로리</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 2600.0 kacl</span>
+                            </td>
+                        </tr>
+                        <tr id="carbohydrates">
+                            <td colspan="2" style="text-align: left;">탄수화물</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 364.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="protein">
+                            <td colspan="2" style="text-align: left;">단백질</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 55.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="fat">
+                            <td colspan="2" style="text-align: left;">지방</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 44.2 g</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 이미지 박스를 추가할 위치 -->
+                <div class="image-box-wrapper">
+
+                </div>
+            </div>
+            <hr>
+
+            <div class="code-area" style="margin-right: 20px; display: flex; justify-content: flex-end;">
+                <p>2024-03-22</p>
+                <!-- 이미지 AI 분석 버튼 -->
+                <a href="/user/diet/analysis?date=2024-03-22" style="margin-left: auto;">
+                    <button class="btn btn-outline-warning">이미지 AI 분석</button>
+                </a>
+            </div>
+            <div class="image-box-wrapper"
+                style="flex: 1; display: flex; justify-content: space-around; align-items: flex-start; margin-bottom: 20px; overflow-x: auto;">
+                <!-- 각 날짜별 결과 테이블 -->
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" style="text-align: left;">칼로리</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 2600.0 kacl</span>
+                            </td>
+                        </tr>
+                        <tr id="carbohydrates">
+                            <td colspan="2" style="text-align: left;">탄수화물</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 364.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="protein">
+                            <td colspan="2" style="text-align: left;">단백질</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 55.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="fat">
+                            <td colspan="2" style="text-align: left;">지방</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 44.2 g</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 이미지 박스를 추가할 위치 -->
+                <div class="image-box-wrapper">
+
+                </div>
+            </div>
+            <hr>
+
+            <div class="code-area" style="margin-right: 20px; display: flex; justify-content: flex-end;">
+                <p>2024-03-23</p>
+                <!-- 이미지 AI 분석 버튼 -->
+                <a href="/user/diet/analysis?date=2024-03-23" style="margin-left: auto;">
+                    <button class="btn btn-outline-warning">이미지 AI 분석</button>
+                </a>
+            </div>
+            <div class="image-box-wrapper"
+                style="flex: 1; display: flex; justify-content: space-around; align-items: flex-start; margin-bottom: 20px; overflow-x: auto;">
+                <!-- 각 날짜별 결과 테이블 -->
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" style="text-align: left;">칼로리</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 2600.0 kacl</span>
+                            </td>
+                        </tr>
+                        <tr id="carbohydrates">
+                            <td colspan="2" style="text-align: left;">탄수화물</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 364.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="protein">
+                            <td colspan="2" style="text-align: left;">단백질</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 55.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="fat">
+                            <td colspan="2" style="text-align: left;">지방</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 44.2 g</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 이미지 박스를 추가할 위치 -->
+                <div class="image-box-wrapper">
+
+                </div>
+            </div>
+            <hr>
+
+            <div class="code-area" style="margin-right: 20px; display: flex; justify-content: flex-end;">
+                <p>2024-03-24</p>
+                <!-- 이미지 AI 분석 버튼 -->
+                <a href="/user/diet/analysis?date=2024-03-24" style="margin-left: auto;">
+                    <button class="btn btn-outline-warning">이미지 AI 분석</button>
+                </a>
+            </div>
+            <div class="image-box-wrapper"
+                style="flex: 1; display: flex; justify-content: space-around; align-items: flex-start; margin-bottom: 20px; overflow-x: auto;">
+                <!-- 각 날짜별 결과 테이블 -->
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" style="text-align: left;">칼로리</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 2600.0 kacl</span>
+                            </td>
+                        </tr>
+                        <tr id="carbohydrates">
+                            <td colspan="2" style="text-align: left;">탄수화물</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 364.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="protein">
+                            <td colspan="2" style="text-align: left;">단백질</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 55.0 g</span>
+                            </td>
+                        </tr>
+                        <tr id="fat">
+                            <td colspan="2" style="text-align: left;">지방</td>
+                            <td colspan="3" style="text-align: right;">
+                                <span>0 / 44.2 g</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 이미지 박스를 추가할 위치 -->
+                <div class="image-box-wrapper">
+
+                </div>
+            </div>
+            <hr>
+
+            <hr>
+        </main>
+
+
+
+        <footer class="pt-3 mt-4 text-body-secondary border-top">© PORT8090</footer>
+        <script>
+            document.getElementById('prev').addEventListener('click', function () {
+                toggleSlide('prev');
+            });
+
+            document.getElementById('next').addEventListener('click', function () {
+                toggleSlide('next');
+            });
+
+            function toggleSlide(direction) {
+                var lastWeek = document.getElementById('lastWeek');
+                var thisWeek = document.getElementById('thisWeek');
+
+                // 방향에 따라 슬라이드 전환
+                if (direction === 'next') {
+                    if (lastWeek.classList.contains('active')) {
+                        lastWeek.classList.remove('active');
+                        lastWeek.style.display = 'none';
+                        thisWeek.classList.add('active');
+                        thisWeek.style.display = 'block';
+                    }
+                } else if (direction === 'prev') {
+                    if (thisWeek.classList.contains('active')) {
+                        thisWeek.classList.remove('active');
+                        thisWeek.style.display = 'none';
+                        lastWeek.classList.add('active');
+                        lastWeek.style.display = 'block';
+                    }
+                }
+            }
+
+            // 초기 화면 설정
+            document.getElementById('lastWeek').classList.add('active');
+            document.getElementById('lastWeek').style.display = 'block';
+
+        </script>
+    </div>
+</body>
+
+</html>
